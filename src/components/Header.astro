@@ -1,0 +1,35 @@
+---
+import { SITE_TITLE } from '../consts';
+---
+
+<header>
+
+		<h2><a href="/">{SITE_TITLE}</a></h2>
+
+</header>
+<style>
+	header {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 100px;
+		margin: 0;
+		padding: 0 1em;
+
+	}
+	h2 {
+		margin: 0;
+		font-size: 1em;
+	}
+
+	h2 a,
+	h2 a.active {
+		text-decoration: none;
+	}
+	h2 a.active {
+		color: rgb(var(--accent));
+	}
+	h2 a:hover {
+		color: rgb(var(--accent));
+	}
+</style>

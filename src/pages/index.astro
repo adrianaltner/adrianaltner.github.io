@@ -1,0 +1,88 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import FormattedDate from "../components/FormattedDate.astro";
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<BaseLayout title="Home" description="Welcome to my blog!">
+  <section>
+    <div class="post-grid">
+      {
+        posts.map((post) => (
+          <div class="post-card">
+            <a href={`/${post.id}/`} class="post-link">
+              <h4 class="post-title">{post.data.title}</h4>
+              <p class="post-date">
+                <FormattedDate date={post.data.pubDate} />
+              </p>
+            </a>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .post-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 2rem 0;
+  }
+
+  .post-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    overflow: hidden;
+  }
+
+  .post-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .post-link {
+    display: block;
+    padding: 1.5rem;
+    text-decoration: none;
+  }
+
+  .post-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .post-date {
+    font-size: 0.875rem;
+    color: #666;
+  }
+
+  @media (min-width: 768px) {
+    .post-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .post-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>
